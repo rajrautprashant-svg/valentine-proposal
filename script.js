@@ -1,223 +1,102 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const responseMessage = document.getElementById('responseMessage');
+let noClickCount = 0;
 
-body {
-    font-family: 'Georgia', 'Times New Roman', serif;
-    background: linear-gradient(135deg, #ffb6c1 0%, #ffc0cb 100%);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow-x: hidden;
-}
-
-.hearts-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.heart {
-    position: absolute;
-    font-size: 20px;
-    animation: float 6s ease-in infinite;
-    opacity: 0;
-}
-
-.heart:nth-child(1) { left: 10%; animation-delay: 0s; }
-.heart:nth-child(2) { left: 30%; animation-delay: 1s; font-size: 30px; }
-.heart:nth-child(3) { left: 50%; animation-delay: 2s; font-size: 25px; }
-.heart:nth-child(4) { left: 70%; animation-delay: 3s; }
-.heart:nth-child(5) { left: 90%; animation-delay: 4s; font-size: 35px; }
-
-@keyframes float {
-    0% {
-        bottom: -100px;
-        opacity: 1;
-    }
-    100% {
-        bottom: 100%;
-        opacity: 0;
-        transform: rotate(360deg);
-    }
-}
-
-.container {
-    position: relative;
-    z-index: 2;
-    max-width: 800px;
-    width: 90%;
-    margin: 20px;
-}
-
-.proposal-box {
-    background: rgba(255, 240, 245, 0.95);
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
-    text-align: center;
-    animation: slideIn 1s ease-out;
-    border: 3px solid #ff69b4;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.greeting {
-    color: #c71585;
-    font-size: 2em;
-    margin-bottom: 10px;
-    animation: pulse 2s infinite;
-    font-family: 'Brush Script MT', cursive;
-}
-
-.message {
-    color: #db7093;
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    font-family: 'Brush Script MT', cursive;
-}
-
-.question {
-    color: #b0306e;
-    font-size: 1.2em;
-    margin-bottom: 20px;
-}
-
-.big-question {
-    color: #ff1493;
-    font-size: 2.2em;
-    margin-bottom: 30px;
-    text-shadow: 2px 2px 4px rgba(255, 20, 147, 0.2);
-    animation: heartbeat 1.5s infinite;
-    font-weight: bold;
-}
-
-@keyframes heartbeat {
-    0% { transform: scale(1); }
-    14% { transform: scale(1.1); }
-    28% { transform: scale(1); }
-    42% { transform: scale(1.1); }
-    70% { transform: scale(1); }
-}
-
-.buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-button {
-    padding: 15px 40px;
-    font-size: 1.2em;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: bold;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.yes-btn {
-    background: linear-gradient(45deg, #ff69b4, #ff1493);
-    color: white;
-    border: 2px solid #ff69b4;
-}
-
-.yes-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
-}
-
-.no-btn {
-    background: white;
-    color: #ff1493;
-    border: 2px solid #ff1493;
-}
-
-.no-btn:hover {
-    background: #ff1493;
-    color: white;
-}
-
-#responseMessage {
-    margin-top: 30px;
-    animation: fadeIn 1.5s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-@keyframes fadeIn {
-    from { 
-        opacity: 0; 
-        transform: scale(0.9); 
-    }
-    to { 
-        opacity: 1; 
-        transform: scale(1); 
-    }
-}
-
-.love-message {
-    background: linear-gradient(145deg, #fff0f5, #ffe4e1);
-    padding: 40px;
-    border-radius: 30px;
-    color: #b0306e;
-    font-size: 1.3em;
-    line-height: 1.8;
-    border: 3px solid #ffb6c1;
-    box-shadow: 0 10px 30px rgba(255, 182, 193, 0.5);
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
-    font-family: 'Brush Script MT', 'Georgia', cursive;
-    letter-spacing: 1px;
-    word-spacing: 5px;
-}
-
-.hidden {
-    display: none !important;
-}
-
-@media (max-width: 600px) {
-    .proposal-box {
-        padding: 20px;
+noBtn.addEventListener('click', function() {
+    noClickCount++;
+    
+    // Yes button size बढाउने
+    let currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+    let newSize = currentSize + 10;
+    yesBtn.style.fontSize = newSize + 'px';
+    yesBtn.style.padding = (15 + noClickCount * 2) + 'px ' + (40 + noClickCount * 4) + 'px';
+    
+    // No button सानो बनाउने
+    let noCurrentSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
+    if (noCurrentSize > 12) {
+        noBtn.style.fontSize = (noCurrentSize - 3) + 'px';
+        noBtn.style.padding = (15 - noClickCount) + 'px ' + (40 - noClickCount * 2) + 'px';
     }
     
-    .greeting { font-size: 1.5em; }
-    .message { font-size: 1.2em; }
-    .big-question { font-size: 1.8em; }
+    // Random हल्लाउने effect
+    noBtn.style.transform = 'translateX(' + (Math.random() * 50 - 25) + 'px) translateY(' + (Math.random() * 50 - 25) + 'px)';
+    setTimeout(() => {
+        noBtn.style.transform = 'translateX(0) translateY(0)';
+    }, 200);
     
-    .buttons {
-        flex-direction: column;
-        align-items: center;
+    // Yes button को text पनि ठूलो हुँदै जान्छ
+    if (noClickCount === 3) {
+        yesBtn.innerHTML = 'Yes ❤️ Please!';
+    } else if (noClickCount === 5) {
+        yesBtn.innerHTML = 'YES ❤️ PLEASE!';
+    } else if (noClickCount === 7) {
+        yesBtn.innerHTML = 'YESSSSS!!! ❤️';
+    }
+});
+
+yesBtn.addEventListener('click', function() {
+    responseMessage.classList.remove('hidden');
+    yesBtn.style.transform = 'scale(1.2)';
+    noBtn.style.display = 'none';
+    yesBtn.style.display = 'none';
+    
+    // धेरै confetti effect
+    for (let i = 0; i < 150; i++) {
+        setTimeout(() => {
+            createConfetti();
+        }, i * 20);
     }
     
-    button {
-        width: 200px;
+    // धेरै hearts effect
+    for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+            createHeart();
+        }, i * 50);
     }
+});
+
+function createConfetti() {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = Math.random() * 100 + '%';
+    confetti.style.animation = 'confetti 3s ease-out';
+    confetti.style.position = 'fixed';
+    confetti.style.top = '-10px';
+    confetti.style.width = '10px';
+    confetti.style.height = '10px';
+    confetti.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
+    confetti.style.zIndex = '1000';
+    document.body.appendChild(confetti);
     
-    .love-message {
-        padding: 25px;
-        font-size: 1.1em;
-    }
+    setTimeout(() => {
+        confetti.remove();
+    }, 3000);
 }
+
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.innerHTML = '❤️';
+    heart.style.position = 'fixed';
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.top = '70%';
+    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+    heart.style.animation = 'float 3s ease-out';
+    heart.style.zIndex = '1000';
+    heart.style.opacity = '0.8';
+    document.body.appendChild(heart);
+    
+    setTimeout(() => {
+        heart.remove();
+    }, 3000);
+}
+
+// Confetti animation CSS
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes confetti {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
